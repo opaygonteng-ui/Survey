@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Bubur Ayam Mang Opay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            
+            /* PERBAIKAN DI SINI: Langsung memanggil nama file bubur.png */
+            background-image: url('bubur.png'); 
+            background-size: 120% auto;
+            background-position: bottom;
+            background-repeat: no-repeat;
+            
+            background-color: #000000; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 30px;
+            background: transparant;
+            border-radius: none;
+            backdrop-filter: none;
+            box-shadow: none;
+        }
+
+        .gif-container {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #d32f2f;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            min-height: 75px; 
+        }
+
+        .btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 350px; 
+        }
+
+        button {
+            font-weight: bold;
+            border: none;
+            border-radius: 50px; 
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease-out; 
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #yesBtn {
+            padding: 14px 45px;
+            font-size: 18px;
+            background-color: #4caf50; 
+            color: white;
+        }
+
+        #noBtn {
+            padding: 14px 45px;
+            font-size: 18px;
+            background-color: #f44336; 
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container" id="emojiFace"></div>
+        
+        <h1 id="question">Apakah anda ingin memesan bubur ayam mang opay hari ini?</h1>
+        
+        <div class="btn-wrapper">
+            <button id="yesBtn">Mau!</button>
+            <button id="noBtn">Enggak</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionText = document.getElementById('question');
+        const emojiFace = document.getElementById('emojiFace');
+
+        let clickCount = 0;
+
+        const alternativeQuestions = [
+            "Apakah anda ingin memesan bubur ayam mang opay hari ini?",
+            "Eh? Yakin gak mau? Kuahnya gurih loh... ",
+            "Mikir dulu gakk!! Kerupuknya bisa dipisah kok!",
+            "Beneran gak laper? Satenya lengkap ada ati, ampela dan kulit",
+            "Tega banget nolak rezeki sarapan senikmat ini... ",
+            "ada telur ayam rebus juga",
+            "Udah jangan gengsi, buruan klik MAU!",
+            "Sudah tidak ada pilihan lain, pokoknya hari ini WAJIB BUBUR!"
+        ];
+
+        const emojis = [
+            "🥣😋", 
+            "🧐", 
+            "😭", 
+            "🍢🤤", 
+            "💔", 
+            "😾", 
+            "🥣✨", 
+            ""
+        ];
+
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+
+            if (clickCount < alternativeQuestions.length) {
+                questionText.innerText = alternativeQuestions[clickCount];
+                emojiFace.innerText = emojis[clickCount];
+            } else {
+                questionText.innerText = alternativeQuestions[alternativeQuestions.length - 1];
+                emojiFace.innerText = emojis[emojis.length - 1];
+            }
+
+            const baseYesPaddingX = 45;
+            const baseYesPaddingY = 14;
+            const baseYesFontSize = 18;
+            const growMultiplier = 1 + (clickCount * 0.4); 
+
+            yesBtn.style.padding = `${baseYesPaddingY * growMultiplier}px ${baseYesPaddingX * growMultiplier}px`;
+            yesBtn.style.fontSize = `${baseFontSize * growMultiplier}px`;
+
+            const baseNoPaddingX = 45;
+            const baseNoPaddingY = 14;
+            const baseNoFontSize = 18;
+            const shrinkMultiplier = Math.max(0.2, 1 - (clickCount * 0.15)); 
+
+            noBtn.style.padding = `${baseNoPaddingY * shrinkMultiplier}px ${baseNoPaddingX * shrinkMultiplier}px`;
+            noBtn.style.fontSize = `${baseNoFontSize * shrinkMultiplier}px`;
+
+            if (clickCount >= 4) {
+                noBtn.innerText = "No";
+            } else {
+                noBtn.innerText = "Gak Bisa! 😜";
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionText.innerHTML = "Yeayyy! Menghubungkan ke WhatsApp Mang Opay... ❤️🥣";
+            emojiFace.innerText = "📲🍲✨";
+            
+            noBtn.style.display = 'none'; 
+            yesBtn.style.padding = '18px 40px';
+            yesBtn.style.fontSize = '24px';
+            yesBtn.innerText = "Dialihkan... 🥰";
+
+            // Masukkan nomor WhatsApp tujuan di bawah ini (Gunakan kode 62 di depan)
+            const noWhatsApp = "6281234567890"; 
+            const teksPesan = "Halo Mang Opay! Saya mau pesan bubur ayamnya dong untuk hari ini. Tolong diproses ya, terima kasih! 🥣😋";
+
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${noWhatsApp}&text=${encodeURIComponent(teksPesan)}`;
+
+            setTimeout(() => {
+                window.location.href = urlWhatsApp;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
